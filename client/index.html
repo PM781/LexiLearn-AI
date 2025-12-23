@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LexiLearn AI - Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="auth-overlay" class="auth-overlay">
+        <div class="auth-card">
+            <div class="logo">LexiLearn <span class="ai-badge">AI</span></div>
+            <p id="auth-title" class="auth-subtitle">Login to track your progress</p>
+            <div class="auth-form">
+                <input type="text" id="auth-username" placeholder="Choose a Username" style="display: none;">
+                <input type="email" id="auth-email" placeholder="Email Address">
+                <input type="password" id="auth-pass" placeholder="Password">
+                <button id="auth-submit-btn" class="primary-btn">Login</button>
+                <p class="switch-auth">
+                    <span id="auth-toggle-text">New here?</span> 
+                    <a href="#" id="auth-toggle-link">Create an Account</a>
+                </p>
+                <button id="guest-btn" class="text-btn">Continue as Guest</button>
+                <p id="auth-error-msg" style="color: var(--error); margin-top: 10px; font-size: 0.9rem;"></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="bg-wrap"></div>
+
+    <div class="dashboard-grid">
+        
+        <aside class="sidebar left-sidebar">
+            <div class="logo">LexiLearn <span class="ai-badge">AI</span></div>
+            
+            <div class="input-group">
+                <label>Theme / Topic</label>
+                <input type="text" id="topic-input" placeholder="e.g. Biology, Harry Potter..." />
+            </div>
+
+            <div class="file-upload-section">
+                <label>Or Upload Material</label>
+                <input type="file" id="file-upload" accept=".txt,.pdf" class="hidden-input">
+                <label for="file-upload" id="file-label" class="custom-file-box">
+                    📂 Choose File...
+                </label>
+            </div>
+
+            <div class="input-group">
+                <label>Settings</label>
+                <select id="difficulty-select">
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+                
+                <select id="question-count">
+                    <option value="3">3 Questions</option>
+                    <option value="5">5 Questions</option>
+                    <option value="10">10 Questions</option>
+                </select>
+            </div>
+
+            <button id="generate-btn" class="primary-btn">✨ Generate Quiz</button>
+        </aside>
+
+        <main class="game-area">
+            
+            <div id="welcome-panel" class="glass-panel">
+                <h2>Welcome to LexiLearn AI! 🚀</h2>
+                <p>Configure your quiz on the left to get started.</p>
+                <div id="loading" class="hidden">
+                    <div class="spinner"></div>
+                    <p>AI is thinking...</p>
+                </div>
+            </div>
+
+            <div id="quiz-interface" class="glass-panel hidden">
+                <div class="quiz-header">
+                    <span id="progress-text">Question 1 / 5</span>
+                    <span id="game-score" style="color: #4CC9F0; font-weight: bold;">Score: 0</span>
+                    <span id="timer-display">⏱ 30s</span>
+                </div>
+
+                <div class="question-container">
+                    <h2 id="question-text">Question will appear here...</h2>
+                </div>
+
+                <div id="options-container" class="options-grid">
+                    </div>
+            </div>
+
+            <div id="results-section" class="glass-panel hidden">
+                <h2>Quiz Complete! 🎉</h2>
+                
+                <h3 id="result-message" style="color: #FFD166; margin-bottom: 15px;"></h3>
+                
+                <p class="score-display" id="score-display">You scored 0 / 0</p>
+                
+                <div id="review-list" class="review-scroll">
+                    </div>
+
+                <button onclick="location.reload()" class="primary-btn" style="margin-top: 20px;">Play Again</button>
+            </div>
+        </main>
+
+        <aside class="sidebar right-sidebar">
+            <div class="user-profile">
+                <div class="avatar-container" id="current-avatar-btn">
+                    <img src="https://api.dicebear.com/9.x/micah/svg?seed=Felix" id="user-avatar-img" alt="Avatar">
+                    <div class="edit-icon">✏️</div>
+                </div>
+                <h3 id="username-display">Guest</h3>
+            </div>
+
+            <div class="stats-container">
+                <h3>Your Stats</h3>
+                <p>Total Score: <span id="user-score">0</span></p>
+                <p>Quizzes: <span id="user-quizzes">0</span></p>
+                
+                <div class="badge-container">
+                    <span id="user-badge" class="badge">🐣 Novice</span>
+                </div>
+            </div>
+
+            <div class="leaderboard-box">
+                <h4>🏆 Leaderboard</h4>
+                <ul id="leaderboard-list">
+                    <li>1. AI_Master - 5000</li>
+                    <li>2. QuizWhiz - 4200</li>
+                    <li>3. You - 0</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <div id="avatar-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Choose Your Persona</h3>
+            <div class="avatar-grid" id="avatar-grid">
+                </div>
+            <button id="close-avatar-btn" class="secondary-btn">Cancel</button>
+        </div>
+    </div>
+
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

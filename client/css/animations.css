@@ -1,0 +1,43 @@
+/* 1. The Falling Letters Logic */
+@keyframes fall {
+    from {
+        /* Start slightly above the screen */
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        /* Fade in quickly */
+        opacity: 0.7;
+    }
+    to {
+        /* Fall all the way down and rotate */
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0.7;
+    }
+}
+
+/* 2. Shake Effect (For Wrong Answers) */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
+}
+
+/* 3. Pop Effect (For Correct Answers) */
+@keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Classes we will use later in JS */
+.shake-on-error {
+    animation: shake 0.4s ease-in-out;
+    border-color: var(--error) !important;
+}
+
+.pop-on-correct {
+    animation: pop 0.3s ease-in-out;
+    border-color: var(--success) !important;
+}

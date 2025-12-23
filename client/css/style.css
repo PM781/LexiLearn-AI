@@ -1,0 +1,457 @@
+:root {
+    /* --- COLOR PALETTE --- */
+    --bg-main: #1A253A;        /* Deep Space Background */
+    --card-bg: #2a3b5a;        /* Panel Background */
+    --input-bg: #1A253A;       /* Dark Inputs */
+    --border-color: #617891;   /* Slate Borders */
+    
+    /* Text */
+    --text-main: #D5BB93;      /* Tan - Primary Text */
+    --text-muted: #A8B2D1;     /* Light Slate - Secondary Text */
+    --text-white: #F1FAEE;     /* White - High Contrast */
+
+    /* Action Colors */
+    --primary: #D5BB93;        /* Tan - Buttons/Accents */
+    --primary-hover: #BFA57D;  /* Darker Tan */
+    
+    /* Feedback Colors */
+    --success: #2A9D8F;        /* Teal Green */
+    --error: #E63946;          /* Vibrant Red */
+    --navy-highlight: #1D3557; /* Deep Navy (Selected State) */
+}
+
+/* =========================================
+   GLOBAL STYLES */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    height: 100vh;
+    overflow: hidden; /* Prevents scrollbars */
+}
+
+/* Background Animation Layer */
+#bg-wrap {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+.falling-letter {
+    position: absolute;
+    top: -50px;
+    color: #6984a0;
+    font-weight: bold;
+    opacity: 0.5;
+    animation: fall linear forwards;
+}
+
+/* =========================================
+   LAYOUT GRID */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr 280px; /* Wider Sidebars */
+    height: 100vh;
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+}
+
+/* =========================================
+   SIDEBAR STYLES */
+.sidebar {
+    background: rgba(37, 52, 79, 0.85); /* Semi-transparent */
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 25px;
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: var(--text-muted);
+    overflow-y: auto; /* Allow scrolling if sidebar gets too tall */
+}
+
+/* Logo */
+.logo { 
+    font-weight: 800; 
+    font-size: 1.5rem; 
+    letter-spacing: -0.5px; 
+    color: var(--text-white);
+    margin-bottom: 10px;
+}
+.ai-badge { color: var(--primary); }
+
+/* Input Groups (Left Panel) */
+.input-group, .file-upload-section, .control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Left Align */
+    width: 100%;
+}
+
+.input-group label, .file-upload-section label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-white);
+    font-size: 0.9rem;
+}
+
+/* Inputs & Selects */
+input[type="text"], select, .custom-file-box {
+    width: 100%;
+    padding: 12px;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-white);
+    font-size: 0.95rem;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+input:focus, select:focus {
+    border-color: var(--primary);
+}
+
+/* File Upload Special Styling */
+.hidden-input { display: none; }
+.custom-file-box {
+    cursor: pointer;
+    text-align: center;
+    color: var(--text-muted);
+    border-style: dashed;
+}
+.custom-file-box:hover {
+    border-color: var(--primary);
+    color: var(--text-white);
+}
+
+/* Button Styling */
+.primary-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary);
+    color: #1A253A; /* Dark text for contrast */
+    font-weight: 800;
+    border-radius: 10px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+    margin-top: 10px;
+}
+.primary-btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+.primary-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* =========================================
+   CENTER GAME AREA */
+.game-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+
+/* The Glass Card */
+.glass-panel {
+    width: 100%;
+    max-width: 700px;
+    min-height: 450px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    
+    /* Centering Content */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.glass-panel.hidden {
+    display: none !important;
+}
+
+/* Quiz Content */
+.quiz-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 15px;
+}
+
+.question-container { width: 100%; }
+#question-text {
+    font-size: 1.6rem;
+    color: var(--text-white);
+    margin-bottom: 30px;
+    line-height: 1.4;
+}
+
+/* Options Grid */
+#options-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 Columns */
+    gap: 15px;
+}
+
+/* Option Buttons */
+.option-btn {
+    width: 100%;
+    padding: 20px;
+    background-color: #FFFFFF;
+    border: 2px solid #457B9D;
+    color: #1D3557;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.option-btn:hover {
+    background-color: #F1FAEE;
+    transform: translateY(-2px);
+}
+
+/* Selected / Correct / Wrong States */
+.option-btn.selected {
+    background-color: var(--navy-highlight) !important;
+    color: white !important;
+    border-color: var(--navy-highlight) !important;
+    transform: scale(1.02);
+}
+
+.option-btn.correct {
+    background-color: var(--success) !important;
+    color: white !important;
+    border-color: var(--success) !important;
+    box-shadow: 0 0 15px rgba(42, 157, 143, 0.4);
+}
+
+.option-btn.wrong {
+    background-color: var(--error) !important;
+    color: white !important;
+    border-color: var(--error) !important;
+    animation: shake 0.4s ease;
+}
+
+/* =========================================
+   RIGHT SIDEBAR (Profile) */
+.user-profile {
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+.edit-icon {
+    position: absolute;
+    bottom: -2px;  
+    right: -2px;   
+    background-color: #D5BB93 !important; 
+    color: #1A253A !important;            /* Dark text */
+    width: 20px; 
+    height: 20px; 
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #2a3b5a; 
+    z-index: 100; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    font-size: 10px; 
+    cursor: pointer;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+
+}
+
+.avatar-container {
+    width: 70px; height: 60px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    overflow: visible !important; 
+    position: relative;
+    border: 3px solid var(--primary);
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: block;
+
+    
+}
+.avatar-container:hover { transform: scale(1.05); }
+.avatar-container img { width: 100%; height: 100%; object-fit: cover; }
+
+.user-profile h3 { color: var(--text-main); margin: 10px 0 5px; }
+
+/* Stats & Leaderboard */
+
+.stats-container p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+.stats-container span { color: var(--primary); font-weight: bold; }
+
+.badge-container { text-align: center; margin-top: 15px; }
+.badge {
+    background: #4361EE;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.leaderboard-box ul {
+    list-style: none;
+    padding: 0;
+}
+.leaderboard-box li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+}
+.leaderboard-box li:last-child { border: none; }
+
+
+/* =========================================
+   ANIMATIONS */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+@keyframes fall {
+    to { top: 100vh; opacity: 0; }
+}
+
+/* =========================================
+   UTILITIES*/
+.hidden { display: none !important; }
+.input-hidden { display: none; }
+.review-scroll {
+    max-height: 250px;       /* Maximum height before scrolling starts */
+    overflow-y: auto;        /* Enable vertical scrolling */
+    margin-top: 20px;
+    padding-right: 10px;     /* Space for the scrollbar */
+    
+    /* Make the scrollbar look nice (Chrome/Safari) */
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) transparent;
+}
+
+/* 2. Custom Scrollbar Styling (Webkit) */
+.review-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+.review-scroll::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+}
+.review-scroll::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 4px;
+}
+/* =========================================
+ /* 1. RESTORE LOGIN SCREEN STYLES */
+.auth-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(15, 23, 42, 0.95); /* Dark solid background */
+    backdrop-filter: blur(8px);
+    z-index: 9999; /* Sit on top of everything */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-card {
+    background: var(--card-bg); /* Uses your Theme Blue */
+    border: 1px solid var(--border-color);
+    padding: 40px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.auth-form input {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 12px;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: white;
+}
+
+.switch-auth {
+    font-size: 0.8rem;
+    margin-top: 15px;
+    color: var(--text-muted);
+}
+.switch-auth a { color: var(--primary); text-decoration: none; font-weight: bold; }
+
+#welcome-panel.hidden {
+    display: none !important;
+}
+
+.stats-container h3, .leaderboard-box h4 {
+    color: var(--text-white);
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+
+
+.avatar-container {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    z-index: 1000 !important; /* Lifts it above everything else */
+    overflow: visible !important; /* Lets the pencil show */
+    position: relative;
+}
+
+.edit-icon {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    z-index: 1001 !important; /* Above the avatar */
+}
+
+#username-display {
+    cursor: pointer;
+    position: relative;
+    z-index: 1000;
+}
