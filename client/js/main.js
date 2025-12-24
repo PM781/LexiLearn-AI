@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ======================================================
-    // 3. EVENT LISTENERS (Buttons & Clicks)
+    // 3. EVENT LISTENERS 
     // ======================================================
 
     // --- A. Login Logic ---
